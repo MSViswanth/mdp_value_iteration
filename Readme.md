@@ -1,4 +1,6 @@
 # Value Iteration
+![](images/q-value.png)
+![](images/utility%20function.png)
 ![](images/value%20iteration.png)
 
 ```python
