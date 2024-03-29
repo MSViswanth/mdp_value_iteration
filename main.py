@@ -30,7 +30,7 @@ def q_value(mdp, s, a, U):
             case 'r':
                 s_ = (s[0]+1, s[1])
             case 'u':
-                s_ = (s[0, s[1]+1])
+                s_ = (s[0], s[1]+1)
             case 'd':
                 s_ = (s[0], s[1]-1)
         q_value += p * (r[*s_] + mdp.gamma * U[*s_])
