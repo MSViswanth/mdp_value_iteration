@@ -44,45 +44,47 @@ def move(mdp, s, a):
     return s_
 
 
-def value_iteration(mdp, e):
+def value_iteration(mdp, e, g):
     S = mdp.states
     A = mdp.actions
     U = {}
     U_ = {s: 0 for s in S}
     gamma = mdp.gamma
+    policies = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 
     while True:
         U = copy.deepcopy(U_)
         delta = 0
         for s in S:
-            U_[s] = max([q_value(mdp, s, a, U) for a in A])
+            if s == g:
+                U_[s] = U[s]
+            else:
+                q_values = {a:q_value(mdp, s, a, U) for a in A}
+                policy = max(q_values, key=q_values.get)
+                U_[s] = q_values[policy]
+            policies[s[0]][s[1]] = policy
+
             if abs(U_[s] - U[s]) > delta:
                 delta = abs(U_[s] - U[s])
         if delta <= e * ((1 - gamma) / gamma):
             break
-    return U
-
-def generate_policy(mdp, U, g):
-        policy = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-        for u in U:
-            reward = {a: U[move(mdp, u, a)] - U[u] for a in mdp.actions}
-            policy[u[0]][u[1]] = max(reward, key=reward.get)
-        policy[g[0]][g[1]] = "G"
-        return policy
+    U[g] = 10
+    return U, policies
 
 def print_matrix(matrix):
         n = len(matrix)
         for i in range(0, n):
             for j in range(0, n):
-                print('{:>2s}'.format(str(matrix[i][j])), end=' ')
+                print('{:4s}'.format(str(matrix[i][j])), end=' ')
             print('')
 
 rs = [-100, -3, 0, 3]
 for r in rs:
     mdp = MDPObject(3, 3, r)
-    u = value_iteration(mdp, 0.001)
-
+    u, policy = value_iteration(mdp, 0.0001, (0,2))
+    print('--------------------------------')
     print(f'Rewards for when r = {r}')
     print_matrix(mdp.rewards)
+    print('--------')
     print('Policy')
-    print_matrix(generate_policy(mdp, u, (0, 2)))
+    print_matrix(policy)
