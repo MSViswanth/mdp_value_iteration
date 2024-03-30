@@ -71,20 +71,25 @@ def value_iteration(mdp, e, g):
     U[g] = 10
     return U, policies
 
-def print_matrix(matrix):
-        n = len(matrix)
+def print_stuff(*args):
+    title = ['Reward Matrix', 'Utility Matrix','Policy Matrix']
+    n = len(args[0])
+    if (len(args) == 3):
+        print(
+            f'{{:^{n*6 + n}s}} {{:^{n*3}s}} {{:^{n*6 + n}s}} {{:^{n*3}s}} {{:^{n*6 + n}s}}'.format(title[0], '|', title[1],'|', title[2]))
+        print(f'{'-' * 30 * n}')
         for i in range(0, n):
-            for j in range(0, n):
-                print('{:4s}'.format(str(matrix[i][j])), end=' ')
+            for k, arg in enumerate(args):
+                for j in range(0, n):
+                    print('{:>6s}'.format(str(arg[i][j])), end=' ')
+                print(f'{{:<{n*3}s}}'.format(''), end=' ')
             print('')
-
 rs = [-100, -3, 0, 3]
 for r in rs:
     mdp = MDPObject(3, 3, r)
     u, policy = value_iteration(mdp, 0.0001, (0,2))
-    print('--------------------------------')
-    print(f'Rewards for when r = {r}')
-    print_matrix(mdp.rewards)
-    print('--------')
-    print('Policy')
-    print_matrix(policy)
+    U = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+    for u_ in u:
+        U[u_[0]][u_[1]] = round(u[u_], 2)
+    print(f'{'-' * 30 * 3}')
+    print_stuff(mdp.rewards,U, policy)
