@@ -5,7 +5,7 @@
 ### Algorithm
 ![](images/value%20iteration.png)
 
-#### Q-Value function
+### Q-Value function
 ![](images/q-value.png)
 
 The `main.py` file implements the above algorithm and the `q_value` function.
