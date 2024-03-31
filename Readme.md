@@ -1,9 +1,18 @@
-# Value Iteration
-![](images/q-value.png)
-![](images/utility%20function.png)
+# MDP - Value Iteration
+## Implementation of value iteration MDP.
+<!-- ![](images/utility%20function.png) -->
+
+### Algorithm
 ![](images/value%20iteration.png)
 
-```python
-action_space = ["l", "r", "u", "d"]
-discount_factor = 0.99
+#### Q-Value function
+![](images/q-value.png)
+
+The `main.py` file implements the above algorithm and the `q_value` function.
+
+## Run
+Execute the following command.
+```sh
+python main.py
 ```
+
